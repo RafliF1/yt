@@ -35,6 +35,7 @@
         
         // Query untuk mengambil data transaksi
         $result = mysqli_query($conn, "SELECT * FROM transactions");
+        $total_penjualan = 0;
         
         // Loop untuk menampilkan data transaksi dalam tabel
         while ($row = mysqli_fetch_assoc($result)) {
@@ -47,12 +48,17 @@
             echo "<td>{$product_name}</td>";
             
             echo "<td>{$row['quantity']}</td>";
-            echo "<td>{$row['total_price']}</td>";
+            echo "<td>Rp." . number_format($row['total_price'], 2, ',', '.') . "</td>";
             echo "<td>{$row['order_type']}</td>";
             echo "</tr>";
+
+            // Hitung total penjualan
+            $total_penjualan += $row['total_price'];
         }
         ?>
     </table>
+    <h3>Total Penjualan: Rp.<?php echo number_format($total_penjualan, 2, ',', '.'); ?></h3>
+
     <script>
     const dailySalesCtx = document.getElementById('dailySalesChart').getContext('2d');
     const weeklySalesCtx = document.getElementById('weeklySalesChart').getContext('2d');
@@ -73,7 +79,7 @@
             $dailyLabels[] = $row['date'];
             $dailyData[] = $row['total'];
         }
-        ?>
+    ?>
 
     const dailySalesData = {
         labels: <?php echo json_encode($dailyLabels); ?>,
@@ -111,7 +117,7 @@
             $weeklyLabels[] = 'Week ' . $row['week'];
             $weeklyData[] = $row['total'];
         }
-        ?>
+    ?>
 
     const weeklySalesData = {
         labels: <?php echo json_encode($weeklyLabels); ?>,
@@ -149,7 +155,7 @@
             $monthlyLabels[] = 'Month ' . $row['month'];
             $monthlyData[] = $row['total'];
         }
-        ?>
+    ?>
 
     const monthlySalesData = {
         labels: <?php echo json_encode($monthlyLabels); ?>,
