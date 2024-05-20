@@ -14,6 +14,8 @@
         <a href="report.php">Laporan Penjualan</a> |
         <a href="stock_management.php">Manajemen Stok</a>
     </nav>
+
+    <!-- Menambah Stok Barang -->
     <h2>Tambah Stok</h2>
     <form action="add_stock.php" method="post">
         <label for="product">Produk:</label>
@@ -36,9 +38,11 @@
             <th>Produk</th>
             <th>Stok</th>
         </tr>
+
+        <!-- Menampilkan data produk dan stok dalam tabel -->
         <?php
         $result = mysqli_query($conn, "SELECT p.name AS product_name, s.stock FROM products p INNER JOIN stock s ON p.id = s.product_id");
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) { 
             echo "<tr>";
             echo "<td>{$row['product_name']}</td>";
             echo "<td>{$row['stock']}</td>";
