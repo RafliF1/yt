@@ -12,12 +12,17 @@
         <a href="index.php">Daftar Produk</a> |
         <a href="order.php">Form Pesanan</a> |
         <a href="report.php">Laporan Penjualan</a> |
-        <a href="stock_management.php">Manajemen Stok</a>
+        <a href="stock_management.php">Manajemen Stok</a> |
     </nav>
 
 
-    <form action="save_order.php" method="post">
+    <?php
+    if (isset($_GET['error'])) {
+        echo "<p class='error-message'>{$_GET['error']}</p>";
+    }
+    ?>
 
+    <form action="save_order.php" method="post">
         <label for="product">Produk:</label>
         <select id="product" name="product" required>
             <?php
@@ -35,21 +40,21 @@
             <option value="Take Away">Take Away</option>
             <option value="Dine In">Dine In</option>
         </select><br>
-        <input type="submit" value="Beli">
-
+        <input type="submit" value="Tambah">
     </form>
 
     <?php
     session_start();
     if (isset($_SESSION['order'])) {
         echo "<h2>Daftar Pesanan</h2>";
-        echo "<table><tr><th>Produk</th><th>Jumlah</th><th>Total Harga</th><th>Tipe Pesanan</th></tr>";
-        foreach ($_SESSION['order'] as $order) {
+        echo "<table><tr><th>Produk</th><th>Jumlah</th><th>Total Harga</th><th>Tipe Pesanan</th><th>Aksi</th></tr>";
+        foreach ($_SESSION['order'] as $index => $order) {
             echo "<tr>";
             echo "<td>{$order['product_name']}</td>";
             echo "<td>{$order['quantity']}</td>";
-            echo "<td>Rp.{$order['total_price']}</td>";
+            echo "<td>Rp." . number_format($order['total_price'], 2, ',', '.') . "</td>";
             echo "<td>{$order['order_type']}</td>";
+            echo "<td><a href='edit_order.php?action=reduce&index={$index}'>Kurangi</a> | <a href='edit_order.php?action=remove&index={$index}'>Hapus</a></td>";
             echo "</tr>";
         }
         echo "</table>";
