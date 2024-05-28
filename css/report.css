@@ -1,0 +1,140 @@
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set body font and background color */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  background-image: url("../images/background.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+/* Set header styles */
+h1 {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+h2 {
+  text-align: left;
+  padding: 18px;
+  color: #333;
+}
+
+/* Set navigation styles */
+nav {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+nav a:hover {
+  color: #666;
+}
+
+/* Set chart styles */
+canvas {
+  width: 30%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* Set table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table th,
+table td {
+  padding: 5px;
+  border: 1px solid #000000;
+  text-align: left;
+}
+
+table th {
+  background-color: #333;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Set view mode styles */
+label {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+select {
+  padding: 20px;
+  margin-right: 15px;
+}
+
+.view-mode select {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 15px;
+  margin-right: 10px;
+  width: 100px;
+  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.view-mode select::-ms-expand {
+  display: none;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #666;
+}
+
+/* Set responsive styles */
+@media (max-width: 768px) {
+  canvas {
+    width: 50%;
+  }
+
+  table {
+    width: 50%;
+  }
+
+  table th,
+  table td {
+    padding: 5px;
+  }
+
+  label,
+  select,
+  button {
+    font-size: 14px;
+  }
+}
