@@ -3,7 +3,7 @@
 
 <head>
     <title>Daftar Produk</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
 </head>
 
 <body>
@@ -24,10 +24,12 @@
             <th>Aksi</th>
         </tr>
         <?php
-        // Menghubungkan ke database, Mengambil data produk dari tabel, Menampilkan data produk dalam tabel
+        // Perulangan menampilkan daftar produk
+        // Setiap iterasi while mengambil satu baris data dan menampilkannya dalam tabel HTML.
+        // Menggunakan fetch_assoc() untuk mengambil baris berikutnya dari hasil query sebagai array asosiatif.
         include '../db/db_connect.php'; 
         $result = $conn->query("SELECT * FROM products"); 
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) { 
             echo "<tr>";
             echo "<td>{$row['name']}</td>";
             echo "<td>{$row['type']}</td>";
