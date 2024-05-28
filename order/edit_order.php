@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['order']) || !isset($_GET['index']) || !isset($_GET['action'])) {
-    header('Location: ../order.php');
+    header('Location: order.php');
     exit();
 }
 
@@ -22,6 +22,6 @@ if ($action == 'reduce') {
     $_SESSION['order'] = array_values($_SESSION['order']);
 }
 
-header('Location: ../order.php');
+header('Location: order.php');
 exit();
 ?>
