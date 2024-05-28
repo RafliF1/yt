@@ -3,7 +3,7 @@ session_start();
 include '../db/db_connect.php';
 
 if (!isset($_SESSION['order'])) {
-    header('Location: ../order/order.php');
+    header('Location: order.php');
     exit();
 }
 
@@ -46,7 +46,7 @@ try {
     // Commit transaksi
     mysqli_commit($conn);
     unset($_SESSION['order']);
-    header('Location: ../order/order_success.php');
+    header('Location: order_success.php');
     exit();
 } catch (Exception $e) {
     // Rollback transaksi jika terjadi kesalahan
