@@ -1,32 +1,44 @@
 <?php
-// Menghubungkan ke database
 include '../db/db_connect.php';
 
-// Memeriksa apakah parameter id telah disertakan dalam permintaan
+// Pastikan parameter id tersedia
 if (isset($_GET['id'])) {
-    // Memastikan bahwa id produk yang akan dihapus adalah angka
-    if (is_numeric($_GET['id'])) {
-        // Mendapatkan ID produk yang akan dihapus
-        $productId = $_GET['id'];
+    $product_id = $_GET['id'];
 
-        // Query untuk menghapus produk dari database
-        $deleteQuery = "DELETE FROM products WHERE id = $productId";
+    // Mulai transaksi
+    $conn->begin_transaction();
 
-        // Eksekusi query penghapusan
-        if ($conn->query($deleteQuery) === TRUE) {
-            echo "Produk berhasil dihapus.";
-        } else {
-            echo "Error: " . $deleteQuery . "<br>" . $conn->error;
-        }
+    // Hapus entri terkait di tabel transaksi
+    $sql_delete_transactions = "DELETE FROM transactions WHERE product_id = ?";
+    $stmt_delete_transactions = $conn->prepare($sql_delete_transactions);
+    $stmt_delete_transactions->bind_param("i", $product_id);
+    $stmt_delete_transactions->execute();
+    $stmt_delete_transactions->close();
 
-        // Menutup koneksi database
-        $conn->close();
-    } else {
-        // ID produk tidak valid (bukan angka)
-        echo "ID produk tidak valid.";
-    }
+    // Hapus entri terkait di tabel stok
+    $sql_delete_stock = "DELETE FROM stock WHERE product_id = ?";
+    $stmt_delete_stock = $conn->prepare($sql_delete_stock);
+    $stmt_delete_stock->bind_param("i", $product_id);
+    $stmt_delete_stock->execute();
+    $stmt_delete_stock->close();
+
+    // Hapus produk dari tabel products
+    $sql_delete_product = "DELETE FROM products WHERE id = ?";
+    $stmt_delete_product = $conn->prepare($sql_delete_product);
+    $stmt_delete_product->bind_param("i", $product_id);
+    $stmt_delete_product->execute();
+    $stmt_delete_product->close();
+
+    // Lakukan commit transaksi jika semua perintah berhasil
+    $conn->commit();
+
+    // Tutup koneksi
+    $conn->close();
+
+    // Kembalikan pengguna ke halaman sebelumnya
+    header('Location: ../index/index.php');
+    exit();
 } else {
-    // Parameter id tidak ada dalam permintaan
-    echo "Parameter id tidak ditemukan dalam permintaan.";
+    echo "Product ID is required.";
 }
 ?>
