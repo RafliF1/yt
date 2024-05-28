@@ -1,5 +1,5 @@
 <?php
-include 'db_connect.php';
+include '../db/db_connect.php';
 
 $product_id = $_POST['product'];
 $quantity = $_POST['quantity'];
@@ -27,7 +27,7 @@ if ($count > 0) {
 
 if (mysqli_query($conn, $sql)) {
     echo "Stok berhasil ditambahkan.";
-    header("Location: stock/stock_management.php");
+    header("Location: ../stock/stock_management.php");
     exit();
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
