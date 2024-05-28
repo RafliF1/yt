@@ -3,7 +3,7 @@
 
 <head>
     <title>Form Pesanan</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/order.css">
 </head>
 
 <body>
@@ -37,8 +37,8 @@
         <input type="number" id="quantity" name="quantity" required><br>
         <label for="order_type">Tipe Pesanan:</label>
         <select id="order_type" name="order_type" required>
-            <option value="Take Away">Take Away</option>
-            <option value="Dine In">Dine In</option>
+            <option value="Bawa Pulang">Bawa Pulang</option>
+            <option value="Makan Ditempat">Makan Ditempat</option>
         </select><br>
         <input type="submit" value="Tambah">
     </form>
