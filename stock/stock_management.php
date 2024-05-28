@@ -3,7 +3,7 @@
 
 <head>
     <title>Manajemen Stok</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/stock.css">
 </head>
 
 <body>
