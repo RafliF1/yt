@@ -2,10 +2,10 @@
 session_start();
 include '../db/db_connect.php';
 
-//Mengambil ID produk, Jumlah, dan tipe pesanan dari form
-$product_id = $_POST['product']; 
+// Mengambil ID produk, Jumlah, dan tipe pesanan dari form
+$product_id = $_POST['product'];
 $quantity = $_POST['quantity'];
-$order_type = $_POST['order_type'];
+$order_type = $_POST['order_type']; // Pastikan input name pada form sesuai
 
 // Ambil detail produk
 $sql = "SELECT * FROM products WHERE id = ?";
@@ -15,9 +15,9 @@ $stmt->execute();
 $result = $stmt->get_result();
 $product = $result->fetch_assoc();
 
-$product_name = $product['name']; //nama produk yang dipilih
+$product_name = $product['name']; // nama produk yang dipilih
 $product_price = $product['price']; // harga produk yang dipilih
-$total_price = $product_price * $quantity; //Menghitung total harga
+$total_price = $product_price * $quantity; // Menghitung total harga
 
 $order_item = [
     'product_id' => $product_id,
@@ -37,6 +37,6 @@ $_SESSION['order'][] = $order_item;
 $stmt->close();
 $conn->close();
 
-header('Location: ../order.php'); //Kembali ke form order
+header('Location: order.php'); // Kembali ke form order
 exit();
 ?>
