@@ -1,43 +1,38 @@
+<?php
+include '../db/db_connect.php';
+$result = mysqli_query($conn, "SELECT * FROM products WHERE is_deleted = 0");
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Daftar Produk</title>
-    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/indexss.css">
 </head>
 
 <body>
     <h1>Daftar Produk</h1>
-
-    <!-- Navigasi ke halaman lain -->
     <nav>
         <a href="index.php">Daftar Produk</a>|
-        <a href="../order/order.php"> Form Pesanan</a>|
-        <a href="../report/report.php"> Laporan Penjualan</a>|
-        <a href="../stock/stock_management.php"> Manajemen Stok</a>
+        <a href="../order/order.php">Form Pesanan</a>|
+        <a href="../report/report.php">Laporan Penjualan</a>|
+        <a href="../stock/stock_management.php">Manajemen Stok</a>
     </nav>
     <table>
         <tr>
             <th>Nama Produk</th>
-            <th>Jenis</th>
+            <th>Jenis Produk</th>
             <th>Harga</th>
             <th>Aksi</th>
         </tr>
         <?php
-        // Perulangan menampilkan daftar produk
-        // Setiap iterasi while mengambil satu baris data dan menampilkannya dalam tabel HTML.
-        // Menggunakan fetch_assoc() untuk mengambil baris berikutnya dari hasil query sebagai array asosiatif.
-        include '../db/db_connect.php'; 
-        $result = $conn->query("SELECT * FROM products"); 
-        while ($row = $result->fetch_assoc()) { 
+        while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>{$row['name']}</td>";
             echo "<td>{$row['type']}</td>";
-            echo "<td>Rp.{$row['price']}</td>";
-            echo "<td>
-                <a href='../product/edit_product.php?id={$row['id']}'>Edit</a> |
-                <a href='../product/delete_product.php?id={$row['id']}'>Hapus</a>
-            </td>";
+            echo "<td>Rp." . number_format($row['price'], 2, ',', '.') . "</td>";
+            echo "<td><a href='../product/edit_product.php?id={$row['id']}'>Edit</a> | <a href='../product/delete_product.php?id={$row['id']}'>Hapus</a></td>";
             echo "</tr>";
         }
         ?>

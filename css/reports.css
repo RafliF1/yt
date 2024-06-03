@@ -1,0 +1,186 @@
+/* Global styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 14px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* Navigation styles */
+
+nav {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: #337ab7;
+  margin-right: 20px;
+}
+
+nav a:hover {
+  color: #23527c;
+}
+
+/* Content styles */
+
+.content {
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-sizing: border-box;
+}
+
+#view {
+  appearance: none; /* Hapus style default dropdown */
+  background-color: #fff; /* Ubah warna background dropdown */
+  border: 1px solid #ccc; /* Tambahkan border dropdown */
+  border-radius: 5px; /* Tambahkan radius pada sudut dropdown */
+  padding: 5px 10px; /* Tambahkan padding pada dropdown */
+  width: 100%; /* Ubah lebar dropdown menjadi 100% */
+}
+
+button[type="button"] {
+  background-color: #4caf50; /* Ubah warna background tombol */
+  color: #fff; /* Ubah warna teks tombol */
+  border: none; /* Hapus border tombol */
+  border-radius: 5px; /* Tambahkan radius pada sudut tombol */
+  padding: 20px 40px; /* Tambahkan padding pada tombol */
+  cursor: pointer; /* Tambahkan efek hover pada tombol */
+  margin-top: 10px; /* Tambahkan margin atas pada tombol */
+}
+
+button[type="button"]:hover {
+  background-color: #3e8e41; /* Ubah warna background tombol saat dihover */
+}
+
+/* Tambahkan style pada tabel */
+table {
+  width: 100%; /* Ubah lebar tabel menjadi 100% */
+  border-collapse: collapse; /* Hapus jarak antar sel tabel */
+}
+
+th,
+td {
+  padding: 10px; /* Tambahkan padding pada sel tabel */
+  border-bottom: 2px solid #ddd; /* Tambahkan garis bawah pada sel tabel */
+}
+
+th {
+  background-color: #f0f0f0; /* Ubah warna background header tabel */
+  font-weight: bold; /* Tebalkan teks header tabel */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Ubah warna background baris genap tabel */
+}
+
+tr:hover {
+  background-color: #f5f5f5; /* Ubah warna background baris saat dihover */
+}
+/* Button styles */
+
+.add-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  padding: 5px 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 120px;
+  height: 30px;
+}
+
+.add-button:hover {
+  background-color: #3e8e41;
+}
+
+/* Chart styles */
+
+canvas {
+  width: 30%;
+  height: 200px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+}
+
+/* Other styles */
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+button[type="button"] {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 12px;
+}
+
+button[type="button"]:hover {
+  background-color: #3e8e41;
+}

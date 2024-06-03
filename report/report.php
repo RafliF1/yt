@@ -25,7 +25,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <head>
     <title>Laporan Penjualan</title>
-    <link rel="stylesheet" type="text/css" href="../css/report.css">
+    <link rel="stylesheet" type="text/css" href="../css/reports.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -44,6 +44,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <canvas id="weeklySalesChart"></canvas>
     <h2>Penjualan Bulanan</h2>
     <canvas id="monthlySalesChart"></canvas>
+
 
     <h2>Laporan Penjualan Tabel</h2>
     <!-- Pilihan tampilan -->

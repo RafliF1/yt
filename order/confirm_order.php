@@ -7,16 +7,26 @@ if (!isset($_SESSION['order'])) {
     exit();
 }
 
-// Mulai transaksi
+if (!isset($_POST['payment'])) {
+    header('Location: order.php?error=Payment amount is required');
+    exit();
+}
+
+$payment = $_POST['payment'];
+
+// Begin transaction
 mysqli_begin_transaction($conn);
 
 try {
+    $total_order_price = 0;
+    $order_details = [];
+
     foreach ($_SESSION['order'] as $order) {
         $product_id = $order['product_id'];
         $quantity = $order['quantity'];
 
-        // Periksa stok saat ini
-        $check_stock_sql = "SELECT stock FROM stock WHERE product_id = ?";
+        // Check current stock
+        $check_stock_sql = "SELECT stock FROM stock WHERE product_id = ? AND is_deleted = 0";
         $stmt = $conn->prepare($check_stock_sql);
         $stmt->bind_param("i", $product_id);
         $stmt->execute();
@@ -28,32 +38,45 @@ try {
             throw new Exception("Stok tidak cukup untuk produk: {$order['product_name']}");
         }
 
-        // Kurangi stok
-        $update_stock_sql = "UPDATE stock SET stock = stock - ? WHERE product_id = ?";
+        // Reduce stock
+        $update_stock_sql = "UPDATE stock SET stock = stock - ? WHERE product_id = ? AND is_deleted = 0";
         $stmt = $conn->prepare($update_stock_sql);
         $stmt->bind_param("ii", $quantity, $product_id);
         $stmt->execute();
 
-        // Tambahkan transaksi
+        // Add transaction
         $total_price = $order['total_price'];
+        $total_order_price += $total_price;
         $order_type = $order['order_type'];
         $insert_transaction_sql = "INSERT INTO transactions (product_id, quantity, total_price, order_type) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($insert_transaction_sql);
         $stmt->bind_param("iids", $product_id, $quantity, $total_price, $order_type);
         $stmt->execute();
+
+        // Save order details for display
+        $order_details[] = $order;
     }
 
-    // Commit transaksi
+    // Commit transaction
     mysqli_commit($conn);
+
+    // Calculate change
+    $change = $payment - $total_order_price;
+
+    // Store order details temporarily for success page
+    $_SESSION['order_details'] = $order_details;
+
+    // Clear session order
     unset($_SESSION['order']);
-    header('Location: order_success.php');
+    $_SESSION['total_order_price'] = 0;
+
+    // Redirect to order_success.php with details
+    header("Location: order_success.php?total_order_price={$total_order_price}&payment={$payment}&change={$change}");
     exit();
 } catch (Exception $e) {
-    // Rollback transaksi jika terjadi kesalahan
+    // Rollback transaction if any error occurs
     mysqli_rollback($conn);
-    echo "Terjadi kesalahan: " . $e->getMessage();
+    header('Location: order.php?error=' . $e->getMessage());
+    exit();
 }
-
-$stmt->close();
-$conn->close();
 ?>

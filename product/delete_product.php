@@ -1,43 +1,49 @@
 <?php
 include '../db/db_connect.php';
 
-// Pastikan parameter id tersedia
+// Ensure the product ID is provided
 if (isset($_GET['id'])) {
     $product_id = $_GET['id'];
 
-    // Mulai transaksi
-    $conn->begin_transaction();
+    // Begin transaction
+    mysqli_begin_transaction($conn);
 
-    // Hapus entri terkait di tabel transaksi
-    $sql_delete_transactions = "DELETE FROM transactions WHERE product_id = ?";
-    $stmt_delete_transactions = $conn->prepare($sql_delete_transactions);
-    $stmt_delete_transactions->bind_param("i", $product_id);
-    $stmt_delete_transactions->execute();
-    $stmt_delete_transactions->close();
+    try {
+        // Soft delete the product
+        $sql_delete_product = "UPDATE products SET is_deleted = 1 WHERE id = ?";
+        $stmt_delete_product = $conn->prepare($sql_delete_product);
+        $stmt_delete_product->bind_param("i", $product_id);
+        $stmt_delete_product->execute();
+        $stmt_delete_product->close();
 
-    // Hapus entri terkait di tabel stok
-    $sql_delete_stock = "DELETE FROM stock WHERE product_id = ?";
-    $stmt_delete_stock = $conn->prepare($sql_delete_stock);
-    $stmt_delete_stock->bind_param("i", $product_id);
-    $stmt_delete_stock->execute();
-    $stmt_delete_stock->close();
+        // Soft delete entries related to this product in the stock table
+        $sql_delete_stock = "UPDATE stock SET is_deleted = 1 WHERE product_id = ?";
+        $stmt_delete_stock = $conn->prepare($sql_delete_stock);
+        $stmt_delete_stock->bind_param("i", $product_id);
+        $stmt_delete_stock->execute();
+        $stmt_delete_stock->close();
 
-    // Hapus produk dari tabel products
-    $sql_delete_product = "DELETE FROM products WHERE id = ?";
-    $stmt_delete_product = $conn->prepare($sql_delete_product);
-    $stmt_delete_product->bind_param("i", $product_id);
-    $stmt_delete_product->execute();
-    $stmt_delete_product->close();
+        // Soft delete entries related to this product in the transactions table
+        $sql_delete_transactions = "UPDATE transactions SET is_deleted = 1 WHERE product_id = ?";
+        $stmt_delete_transactions = $conn->prepare($sql_delete_transactions);
+        $stmt_delete_transactions->bind_param("i", $product_id);
+        $stmt_delete_transactions->execute();
+        $stmt_delete_transactions->close();
 
-    // Lakukan commit transaksi jika semua perintah berhasil
-    $conn->commit();
+        // Commit transaction
+        mysqli_commit($conn);
 
-    // Tutup koneksi
-    $conn->close();
+        // Close connection
+        $conn->close();
 
-    // Kembalikan pengguna ke halaman sebelumnya
-    header('Location: ../index/index.php');
-    exit();
+        // Redirect back to the product list
+        header('Location: ../index/index.php');
+        exit();
+    } catch (Exception $e) {
+        // Rollback transaction if there's an error
+        mysqli_rollback($conn);
+        echo "Error: " . $e->getMessage();
+    }
 } else {
     echo "Product ID is required.";
 }
